@@ -1,0 +1,15 @@
+services:
+  dev:
+    build:
+      dockerfile_inline: |
+        FROM ubuntu:22.04
+        RUN apt update \
+            && apt install -y sudo binutils vim nano \
+            && apt upgrade -y \
+            && useradd -mG sudo ubuntu \
+            && echo 'ubuntu ALL=(root) NOPASSWD: ALL' > /etc/sudoers.d/ubuntu \
+            && chmod 0440 /etc/sudoers.d/ubuntu
+        USER ubuntu
+        WORKDIR /home/ubuntu
+    volumes:
+      - ./docker:/home/ubuntu
